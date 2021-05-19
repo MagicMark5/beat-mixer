@@ -23,9 +23,20 @@ const toggleDrum = (drumString, index) => {
   }
 };
 
+const validateDrumString = drumString => Object.keys(drums).includes(drumString);
+
 const clear = (drumString) => {
   // takes an array name string and sets all values in the correct array to false
-  const validDrumString = Object.keys(drums).includes(drumString);
+  const validDrumString = validateDrumString(drumString);
   // check if arguments are valid drum names, then reassign the array
   if (validDrumString) drums[drumString].fill(false);
 }
+
+const invert = drumString => {
+  // invert each boolean value of all elements in the correct array
+  const validDrumString = validateDrumString(drumString);
+  if (validDrumString) drums[drumString].forEach((bool, i, drumArray) => {
+    // invert values of original array
+    drumArray[i] = !bool;
+  });
+};
