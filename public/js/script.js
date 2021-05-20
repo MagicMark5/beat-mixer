@@ -45,8 +45,12 @@ const invert = drumString => {
 
 const getNeighborPads = (x, y, size) => {
   // x and y refers to the synth grid: zero-indexed from the bottom left of the grid
-  // size is a number representing the number of rows/columns in the square
+  // size is a number representing the number of rows/columns in the square, e.g. 4 => 4x4
   // should return an array of neighbors, each in the form [xValue, yValue]
   // Neighbors are the squares immediately to the left, right, above, and below a grid position
-
+  
+  if (size <= x || size <= y || x < 0 || y < 0) {
+    // return [] if x or y is outside grid range
+    return [];
+  } 
 }
