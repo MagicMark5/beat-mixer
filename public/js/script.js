@@ -40,3 +40,13 @@ const invert = drumString => {
     drumArray[i] = !bool;
   });
 };
+
+// Bonus implementation: getNeighborPads() to play multiple synthesizer tones at once 
+
+const getNeighborPads = (x, y, size) => {
+  // x and y refers to the synth grid: zero-indexed from the bottom left of the grid
+  // size is a number representing the number of rows/columns in the square
+  // should return an array of neighbors, each in the form [xValue, yValue]
+  // Neighbors are the squares immediately to the left, right, above, and below a grid position
+
+}
