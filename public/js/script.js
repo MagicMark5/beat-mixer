@@ -55,7 +55,7 @@ const getNeighborPads = (x, y, size) => {
   }
   
   // Because grid starts with 0, 0 at bottom left
-  // Change the x y to work with zero indexed arrays
+  // Invert the x, y for display grid of zero-indexed arrays
   let X = Math.abs(y - (size - 1));
   let Y = x;
 
@@ -63,18 +63,14 @@ const getNeighborPads = (x, y, size) => {
   const validNeighbours = [];
 
   // Make a 2D array for the given size
-  const rows = Array(size).fill(1);
+  const rows = Array(size).fill('n');
   const grid = Array(size).fill(rows);
   // Fill in the x,y coordinate with the number 1 without mutating every row
-  const markedRow = grid[X].map((n, index) => index === Y ? 2 : n);
+  const markedRow = grid[X].map((n, index) => index === Y ? 1 : n);
   // replace the row with markedRow
   grid[X] = markedRow;
-  // debugging...
-  console.log(`x is ${x}, y is ${y}, grid is...`);
-  console.log(grid);
   
-
-  // save the grid coordinates L, R, UP, DOWN relative to given x, y (respectively)
+  // save the grid coordinates left, down, right, up relative to given x, y (respectively)
   const left = [x-1, y];
   const right = [x+1, y];
   const up = [x, y+1];
@@ -83,19 +79,13 @@ const getNeighborPads = (x, y, size) => {
   const potentialNeighbours = [left, down, right, up];
 
   for (const neighbour of potentialNeighbours) {
-    //console.log(neighbour);
     const x = neighbour[0];
     const y = neighbour[1];
-    // add only grid neighbors visible in grid of 0s
-    if (grid[x]) {
-      if (grid[x][y] && grid[x][y] === 1) {
-        validNeighbours.push(neighbour);
-      }
+    // add only grid neighbors visible in grid of 'n's
+    if (grid[x] && grid[x][y] === 'n') {
+      validNeighbours.push(neighbour);
     }
   }
   
-  
-
-  console.log(validNeighbours)
   return validNeighbours;
 }
