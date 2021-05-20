@@ -52,5 +52,13 @@ const getNeighborPads = (x, y, size) => {
   if (size <= x || size <= y || x < 0 || y < 0) {
     // return [] if x or y is outside grid range
     return [];
-  } 
+  }
+
+  // return the grid coordinates L, R, UP, DOWN relative to given x, y (respectively)
+  return [
+    [x-1, y], 
+    [x+1, y], 
+    [x, y+1], 
+    [x, y-1]
+  ];
 }
