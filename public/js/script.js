@@ -41,51 +41,25 @@ const invert = drumString => {
   });
 };
 
-// Bonus implementation: getNeighborPads() to play multiple synthesizer tones at once 
+// Bonus implementation: getNeighbourPads() to play multiple synthesizer tones at once 
 
 const getNeighborPads = (x, y, size) => {
   // x and y refers to the synth grid: zero-indexed from the bottom left of the grid
   // size is a number representing the number of rows/columns in the square, e.g. 4 => 4x4
   // should return an array of neighbors, each in the form [xValue, yValue]
   // Neighbors are the squares immediately to the left, right, above, and below a grid position
-
-  if (x === undefined || y === undefined || size <= x || size <= y || x < 0 || y < 0) {
-    // return [] if x or y is outside grid range
-    return [];
+  const neighbourPads = [];
+  if (x >= size || y >= size || x < 0 || y < 0 || size < 1) {
+    return neighbourPads;
   }
-  
-  // Because grid starts with 0, 0 at bottom left
-  // Invert the x, y for display grid of zero-indexed arrays
-  let X = Math.abs(y - (size - 1));
-  let Y = x;
-
-  // Returned neighbour coordinate arrays will be stored here
-  const validNeighbours = [];
-
-  // Make a 2D array for the given size
-  const rows = Array(size).fill('n');
-  const grid = Array(size).fill(rows);
-  // Fill in the x,y coordinate with the number 1 without mutating every row
-  const markedRow = grid[X].map((n, index) => index === Y ? 1 : n);
-  // replace the row with markedRow
-  grid[X] = markedRow;
-  
-  // save the grid coordinates left, down, right, up relative to given x, y (respectively)
-  const left = [x-1, y];
-  const right = [x+1, y];
-  const up = [x, y+1];
-  const down = [x, y-1];
-
-  const potentialNeighbours = [left, down, right, up];
-
-  for (const neighbour of potentialNeighbours) {
-    const x = neighbour[0];
-    const y = neighbour[1];
-    // add only grid neighbors visible in grid of 'n's
-    if (grid[x] && grid[x][y] === 'n') {
-      validNeighbours.push(neighbour);
-    }
-  }
-  
-  return validNeighbours;
+  neighbourPads.push([x - 1, y]);
+  neighbourPads.push([x, y - 1]);
+  neighbourPads.push([x + 1, y]);
+  neighbourPads.push([x, y + 1]);
+  return neighbourPads.filter((neighbour) => {
+    return neighbour.every((val) => {
+      // only return neighbours with valid grid coordinates
+      return val >= 0 && val < size;
+    });
+  });
 }
