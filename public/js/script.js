@@ -48,17 +48,52 @@ const getNeighborPads = (x, y, size) => {
   // size is a number representing the number of rows/columns in the square, e.g. 4 => 4x4
   // should return an array of neighbors, each in the form [xValue, yValue]
   // Neighbors are the squares immediately to the left, right, above, and below a grid position
-  
-  if (size <= x || size <= y || x < 0 || y < 0) {
+
+  if (x === undefined || y === undefined || size <= x || size <= y || x < 0 || y < 0) {
     // return [] if x or y is outside grid range
     return [];
   }
+  
+  // Because grid starts with 0, 0 at bottom left
+  // Change the x y to work with zero indexed arrays
+  let X = Math.abs(y - (size - 1));
+  let Y = x;
 
-  // return the grid coordinates L, R, UP, DOWN relative to given x, y (respectively)
-  return [
-    [x-1, y], 
-    [x+1, y], 
-    [x, y+1], 
-    [x, y-1]
-  ];
+  // Returned neighbour coordinate arrays will be stored here
+  const validNeighbours = [];
+
+  // Make a 2D array for the given size
+  const rows = Array(size).fill(0);
+  const grid = Array(size).fill(rows);
+  // Fill in the x,y coordinate with the number 1 without mutating every row
+  const markedRow = grid[X].map((n, index) => index === Y ? 1 : n);
+  // replace the row with markedRow
+  grid[X] = markedRow;
+  // debugging...
+  console.log(`x is ${x}, y is ${y}, grid is...`);
+  console.log(grid);
+  
+
+  // save the grid coordinates L, R, UP, DOWN relative to given x, y (respectively)
+  const left = [x-1, y];
+  const right = [x+1, y];
+  const up = [x, y+1];
+  const down = [x, y-1];
+
+  const potentialNeighbours = [left, down, right, up];
+
+  for (const neighbour of potentialNeighbours) {
+    //console.log(neighbour);
+    const x = neighbour[0];
+    const y = neighbour[1];
+    // add only grid neighbors visible in grid of 0s
+    if (grid[x][y] === 0) {
+      validNeighbours.push(neighbour);
+    }
+  }
+  
+  
+
+  console.log(validNeighbours)
+  return validNeighbours;
 }
