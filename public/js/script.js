@@ -63,10 +63,10 @@ const getNeighborPads = (x, y, size) => {
   const validNeighbours = [];
 
   // Make a 2D array for the given size
-  const rows = Array(size).fill(0);
+  const rows = Array(size).fill(1);
   const grid = Array(size).fill(rows);
   // Fill in the x,y coordinate with the number 1 without mutating every row
-  const markedRow = grid[X].map((n, index) => index === Y ? 1 : n);
+  const markedRow = grid[X].map((n, index) => index === Y ? 2 : n);
   // replace the row with markedRow
   grid[X] = markedRow;
   // debugging...
@@ -87,8 +87,10 @@ const getNeighborPads = (x, y, size) => {
     const x = neighbour[0];
     const y = neighbour[1];
     // add only grid neighbors visible in grid of 0s
-    if (grid[x][y] === 0) {
-      validNeighbours.push(neighbour);
+    if (grid[x]) {
+      if (grid[x][y] && grid[x][y] === 1) {
+        validNeighbours.push(neighbour);
+      }
     }
   }
   
